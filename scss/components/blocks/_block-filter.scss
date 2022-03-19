@@ -1,0 +1,35 @@
+.block.block--filter {
+  .block__content {
+    padding-top: 20px;
+    padding-bottom: 20px;
+    border-bottom: 2px solid $light-blue;
+  }
+
+
+  .block__item {
+    display: inline-block;
+    margin-right: 14px;
+    margin-bottom: 12px;
+  }
+
+  .block__label {
+    display: none;
+  }
+}
+
+@include media-breakpoint-up(lg) {
+  .block.block--filter {
+    .block__item {
+      width: 240px;
+    }
+
+    .block__label {
+      display: block;
+      margin-bottom: 14px;
+      color: $mid-blue;
+      font-size: 12px;
+      font-weight: 700;
+      text-transform: uppercase;
+    }
+  }
+}

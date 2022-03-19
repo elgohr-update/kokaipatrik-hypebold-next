@@ -1,0 +1,148 @@
+.form-group--input-select {
+  position: relative;
+  width: 100%;
+
+  .form-group__select {
+    width: 100%;
+    height: 50px;
+    padding: 0 10px;
+    transition: 0.2s;
+    border: 2px solid $light-gray-2;
+    border-radius: 12px;
+    font-family: $font-montserrat;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+
+    &.has-value .form-group__label {
+      top: 0;
+      left: -4px;
+      padding: 0 4px;
+      background-color: #fff;
+      color: #000;
+      font-size: 12px;
+    }
+
+    &.has-value .form-group__selected {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    &.is-active {
+      .form-group__icon {
+        border-color: $light-blue-2;
+      }
+
+      .form-group__icon::before {
+        top: calc(50% - 1px);
+        transform: translateX(-50%) rotate(-45deg);
+      }
+
+      .form-group__icon::after {
+        top: calc(50% - 1px);
+        transform: translateX(-50%) rotate(45deg);
+      }
+    }
+  }
+
+  .form-group__select__content {
+    position: relative;
+    width: 100%;
+    height: 46px;
+  }
+
+  .form-group__label,
+  .form-group__selected {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    transition: .2s;
+  }
+
+  .form-group__label {
+    color: $mid-gray-2;
+  }
+
+  .form-group__selected {
+    opacity: 0;
+    visibility: hidden;
+  }
+
+  .form-group__icon {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    width: 26px;
+    height: 26px;
+    transition: 0.25s;
+    border: 2px solid $light-blue;
+    border-radius: 13px;
+    cursor: pointer;
+
+    &::before,
+    &::after {
+      position: absolute;
+      top: 50%;
+      width: 7px;
+      height: 2px;
+      transition: 0.2s;
+      border-radius: 1px;
+      background-color: $mid-blue-2;
+      content: "";
+    }
+
+    &::before {
+      right: 6px;
+      transform: translateX(-50%) rotate(45deg);
+    }
+
+    &::after {
+      right: 2px;
+      transform: translateX(-50%) rotate(-45deg);
+    }
+  }
+
+  .form-group__options {
+    position: absolute;
+    top: 100%;
+    width: 100%;
+    padding: 10px;
+    transition: 0.2s;
+    border: 2px solid $light-gray-2;
+    border-radius: 12px;
+    background-color: #fff;
+    opacity: 0;
+    visibility: hidden;
+    z-index: 1;
+
+    &.is-active {
+      top: calc(100% + 5px);
+      transform: scale(1);
+      opacity: 1;
+      visibility: visible;
+    }
+  }
+
+  .form-group__list {
+    padding: 0;
+  }
+
+  .form-group__item {
+    width: 100%;
+    margin-bottom: 8px;
+    transition: 0.25s;
+    color: $mid-blue;
+    font-size: 14px;
+    font-weight: 600;
+    list-style: none;
+    cursor: pointer;
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+
+    &:hover {
+      color: #000;
+    }
+  }
+}

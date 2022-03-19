@@ -1,0 +1,64 @@
+#nprogress {
+  pointer-events: none;
+
+  .bar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background: $mid-purple;
+    z-index: 1031;
+  }
+
+  .peg {
+    display: block;
+    position: absolute;
+    right: 0;
+    width: 100px;
+    height: 100%;
+    transform: rotate(3deg) translate(0, -4px);
+    box-shadow: 0 0 10px $mid-purple, 0 0 5px $mid-purple;
+    opacity: 1;
+    -webkit-transform: rotate(3deg) translate(0, -4px);
+  }
+
+  .spinner {
+    display: block;
+    position: fixed;
+    top: 15px;
+    right: 15px;
+    z-index: 1031;
+  }
+
+  .spinner-icon {
+    width: 18px;
+    height: 18px;
+    border: solid 2px transparent;
+    border-radius: 50%;
+    border-top-color: $mid-purple;
+    border-left-color: $mid-purple;
+    box-sizing: border-box;
+    animation: nprogress-spinner 400ms linear infinite;
+    -webkit-animation: nprogress-spinner 400ms linear infinite;
+  }
+}
+
+.nprogress-custom-parent {
+  position: relative;
+  overflow: hidden;
+}
+
+.nprogress-custom-parent #nprogress .spinner,
+.nprogress-custom-parent #nprogress .bar {
+  position: absolute;
+}
+
+@-webkit-keyframes nprogress-spinner {
+  0%   { -webkit-transform: rotate(0deg); }
+  100% { -webkit-transform: rotate(360deg); }
+}
+@keyframes nprogress-spinner {
+  0%   { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}

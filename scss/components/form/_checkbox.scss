@@ -1,0 +1,57 @@
+.form-checkbox-container {
+  display: block;
+  position: relative;
+  margin: 12px 0 24px;
+  padding-left: 28px;
+  color: $mid-blue;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  user-select: none;
+
+  &:hover .form-checkbox-input ~ .form-checkbox-mark {
+    border-color: #ccc;
+  }
+}
+
+.form-checkbox-input {
+  position: absolute;
+  width: 0;
+  height: 0;
+  cursor: pointer;
+  opacity: 0;
+
+  &:checked ~ .form-checkbox-mark {
+    background: $gradient;
+
+    &::after {
+      display: block;
+    }
+  }
+}
+
+.form-checkbox-mark {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 18px;
+  height: 18px;
+  transition: .25s;
+  border: 2px solid $light-blue;
+  border-radius: 4px;
+
+  &::after {
+    display: none;
+    position: absolute;
+    top: 1px;
+    left: 4px;
+    width: 4px;
+    height: 8px;
+    transform: rotate(45deg);
+    border: solid #fff;
+    border-width: 0 2px 2px 0;
+    content: '';
+  }
+}

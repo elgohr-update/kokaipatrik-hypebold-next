@@ -1,0 +1,132 @@
+.block.block--search {
+  padding: 0;
+
+  .block__search {
+    position: relative;
+  }
+
+  .block__btn {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 50px;
+    height: 100%;
+    border: 0;
+    background-color: transparent;
+
+    img {
+      width: 15px;
+      margin-top: 3px;
+      opacity: .35;
+    }
+  }
+
+  .block__related {
+    display: flex;
+    flex-direction: column;
+    margin-top: 22px;
+  }
+
+  .block__title {
+    font-size: 15px;
+    font-weight: 800;
+    text-align: center;
+    text-transform: uppercase;
+  }
+
+  .block__list {
+    margin-top: 16px;
+    list-style: none;
+
+    li {
+      color: $mid-gray;
+      font-size: 14px;
+      line-height: 34px;
+      text-align: center;
+    }
+  }
+}
+
+@include media-breakpoint-up(lg) {
+  .block.block--search {
+    position: relative;
+
+    &.is-user {
+      .block__input,
+      .block__related {
+        width: 114%;
+      }
+    }
+
+    .container {
+      width: 100%;
+    }
+
+    .block__related {
+      position: absolute;
+      top: calc(100% + 8px);
+      width: 100%;
+      padding: 30px 0;
+      border-radius: 12px;
+      background-color: #fff;
+    }
+
+    .block__search {
+      transition: .5s;
+      transition-delay: 2s;
+      opacity: 0;
+    }
+
+    .block__input {
+      width: 120%;
+      padding-left: 40px;
+    }
+
+    .block__related {
+      width: 120%;
+    }
+
+    .block__btn {
+      right: auto;
+      left: 0;
+    }
+  }
+
+  .header__search.is-active {
+    .block__search {
+      opacity: 1;
+    }
+  }
+}
+
+@include media-breakpoint-up(xl) {
+  .block.block--search {
+    .block__input,
+    .block__related {
+      width: 127%;
+    }
+
+    &.is-user {
+      .block__input,
+      .block__related {
+        width: 121%;
+      }
+    }
+  }
+}
+
+@include media-breakpoint-up(xxl) {
+  .block.block--search {
+    .block__input,
+    .block__related {
+      width: 131%;
+    }
+
+    &.is-user {
+      .block__input,
+      .block__related {
+        width: 127%;
+      }
+    }
+  }
+}

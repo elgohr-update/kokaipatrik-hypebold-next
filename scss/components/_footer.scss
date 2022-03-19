@@ -1,0 +1,9 @@
+.footer.footer--main {
+  margin: 0 0 26px;
+}
+
+@include media-breakpoint-up(lg) {
+  .footer.footer--main {
+    margin: 100px 0 40px;
+  }
+}

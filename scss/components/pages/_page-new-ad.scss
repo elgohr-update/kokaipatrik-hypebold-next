@@ -1,0 +1,27 @@
+.page.page--new-ad {
+  margin-top: 26px;
+
+  .page__title {
+    font-size: 32px;
+    font-weight: 900;
+    text-align: center;
+  }
+
+  .page__content {
+    margin-top: 26px;
+  }
+}
+
+@include media-breakpoint-up(lg) {
+  .page.page--new-ad {
+    margin-top: 42px;
+
+    .page__title {
+      font-size: 46px;
+    }
+
+    .page__row {
+      margin-top: 20px;
+    }
+  }
+}

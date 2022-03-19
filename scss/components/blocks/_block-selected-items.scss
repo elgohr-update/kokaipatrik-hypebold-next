@@ -1,0 +1,19 @@
+.block.block--selected-items {
+  padding-top: 30px;
+  padding-bottom: 30px;
+
+  .block__item {
+    display: inline-block;
+    margin-right: 12px;
+    padding: 8px 36px 8px 10px;
+    border: 2px solid $light-blue;
+    border-radius: 12px;
+    background-image: url('data:image/svg+xml,%3Csvg width=\'11\' height=\'11\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cpath d=\'m10.397.24.002.001a.827.827 0 0 1 0 1.168L6.482 5.337l3.917 3.93a.827.827 0 0 1 0 1.166.821.821 0 0 1-1.161.002l-.002-.002L5.32 6.504l-3.916 3.93a.82.82 0 0 1-1.16.001l-.003-.002a.827.827 0 0 1 0-1.167l3.916-3.929L.241 1.409a.827.827 0 0 1 0-1.168A.82.82 0 0 1 1.402.24l.002.002L5.32 4.17 9.236.241A.82.82 0 0 1 10.397.24Z\' fill=\'%238C8F96\' fill-rule=\'evenodd\'/%3E%3C/svg%3E');
+    background-repeat: no-repeat;
+    background-position: right 8px center;
+    color: $mid-blue;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+  }
+}

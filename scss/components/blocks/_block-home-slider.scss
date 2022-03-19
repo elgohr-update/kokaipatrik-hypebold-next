@@ -1,0 +1,143 @@
+.block.block--home-slider {
+  width: 100%;
+  margin-bottom: 60px;
+
+  .block__figure {
+    position: relative;
+    height: auto;
+    padding-top: 66.25%;
+    overflow: hidden;
+
+    img {
+      position: absolute;
+      top: -40px;
+      width: 100%;
+      height: auto;
+      background-size: cover;
+    }
+  }
+
+  .block__label {
+    display: none;
+  }
+
+  .block__content {
+    padding: 20px 20px 15px;
+    background-color: #fff;
+    box-shadow: $box-shadow;
+  }
+
+  .block__title {
+    margin-bottom: 12px;
+    font-size: 18px;
+    font-weight: 800;
+    line-height: 26px;
+    text-transform: uppercase;
+  }
+
+  .block__description {
+    color: $mid-gray;
+    font-size: 14px;
+    line-height: 22px;
+  }
+}
+
+@include media-breakpoint-down(sm) {
+  .block.block--home-slider {
+    .block__container {
+      max-width: 100%;
+      padding: 0;
+    }
+
+    .block__row {
+      margin: 0;
+    }
+
+    .block__col {
+      padding: 0;
+    }
+  }
+}
+
+@include media-breakpoint-down(lg) {
+  .block.block--home-slider {
+    .block__figure {
+      width: 100%;
+      z-index: -1;
+    }
+
+    .block__content {
+      width: calc(100% - 10%);
+      margin-top: -40px;
+      margin-left: auto;
+    }
+  }
+}
+
+@include media-breakpoint-up(lg) {
+  .block.block--home-slider {
+    margin: 34px 0 90px;
+
+    .block__col {
+      &:first-child {
+        order: 1;
+      }
+
+      &:last-child {
+        display: flex;
+        position: relative;
+        align-items: center;
+        order: 0;
+      }
+    }
+
+    .block__figure {
+      padding-top: 75%;
+    }
+
+    .block__content {
+      position: absolute;
+      width: calc(100% + 60px);
+      padding: 40px;
+    }
+
+    .block__title {
+      margin-bottom: 20px;
+      font-size: 30px;
+      line-height: 40px;
+    }
+
+    .block__description {
+      font-size: 16px;
+      line-height: 28px;
+    }
+
+    .block__label {
+      display: block;
+      position: absolute;
+      right: 40px;
+      bottom: 40px;
+      width: 336px;
+      padding: 25px;
+      transition: .15s;
+      background: $gradient;
+      color: #fff;
+
+      &:hover {
+        transform: translateY(-5px);
+      }
+    }
+
+    .block__subtitle {
+      margin-bottom: 14px;
+      font-size: 18px;
+      font-weight: 800;
+      text-transform: uppercase;
+    }
+
+    .block__lead {
+      font-size: 14px;
+      line-height: 22px;
+    }
+  }
+}

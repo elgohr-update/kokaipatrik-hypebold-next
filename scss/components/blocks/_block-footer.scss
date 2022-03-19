@@ -1,0 +1,153 @@
+.block.block--footer {
+  border-bottom: 1px solid $light-gray;
+
+  .block__title:not(.is-mobile) {
+    display: none;
+  }
+
+  .block__title.is-mobile {
+    position: relative;
+    padding: 16px 0;
+    transition: .2s;
+    font-size: 14px;
+    font-weight: 800;
+    text-transform: uppercase;
+    cursor: pointer;
+
+    &::before,
+    &::after {
+      position: absolute;
+      top: 50%;
+      width: 10px;
+      height: 2px;
+      transition: .2s;
+      background-color: #000;
+      content: '';
+    }
+
+    &::before {
+      right: 6px;
+      transform: translateX(-50%) rotate(45deg);
+    }
+
+    &::after {
+      right: 0;
+      transform: translateX(-50%) rotate(-45deg);
+    }
+
+    &.is-active {
+      &::before {
+        transform: translateX(-50%) rotate(-45deg);
+      }
+
+      &::after {
+        transform: translateX(-50%) rotate(45deg);
+      }
+    }
+  }
+
+  .block__content {
+    max-height: 0;
+    transform: scaleY(0);
+    transform-origin: left top;
+    transition: .25s ease-in-out;
+    overflow: hidden;
+
+    &.is-active {
+      max-height: 200px;
+      transform: scaleY(1);
+    }
+  }
+
+  .block__figure {
+    display: none;
+  }
+
+  .block__link {
+    display: block;
+    margin-bottom: 10px;
+    color: $mid-gray-2;
+    font-size: 14px;
+    text-decoration: none;
+  }
+
+  &.block--footer-without-links {
+    border-bottom: 0;
+  }
+
+  .block__copyright {
+    margin-top: 16px;
+    text-align: center;
+
+    > p {
+      color: $mid-gray-2;
+      font-size: 13px;
+      line-height: 20px;
+    }
+
+    a {
+      transition: .25s;
+      color: $mid-gray-2;
+      text-decoration: none;
+
+      &:hover {
+        color: #000;
+      }
+    }
+  }
+}
+
+@include media-breakpoint-up(lg) {
+  .block.block--footer {
+    border-bottom: 0;
+
+    .block__title {
+      margin-bottom: 24px;
+      font-size: 16px;
+      font-weight: 700;
+      text-transform: uppercase;
+
+      &:not(.is-mobile) {
+        display: block;
+      }
+
+      &.is-mobile {
+        display: none;
+      }
+    }
+
+    .block__figure {
+      display: block;
+    }
+
+    .block__content {
+      max-height: 200px;
+      transform: scaleY(1);
+    }
+
+    .block__link {
+      transition: .25s;
+      font-size: 15px;
+
+      &:hover {
+        color: #000;
+      }
+    }
+
+    .block__copyright {
+      text-align: left;
+
+      > p {
+        font-size: 14px;
+        line-height: 24px;
+      }
+    }
+
+    &.block--footer-without-links {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      height: 100%;
+    }
+  }
+}

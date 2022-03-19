@@ -1,0 +1,32 @@
+.block.block--radio {
+  display: inline-flex;
+  position: relative;
+  margin-right: 40px;
+  cursor: pointer;
+
+  &::before {
+    position: absolute;
+    top: -3px;
+    left: 0;
+    width: 22px;
+    height: 22px;
+    transition: .2s;
+    border: 2px solid $light-blue;
+    border-radius: 50%;
+    content: '';
+    box-sizing: border-box;
+  }
+
+  &.is-active {
+    &::before {
+      border-width: 6px;
+      border-color: $dark-green;
+    }
+  }
+
+  .block__name {
+    padding-left: 34px;
+    font-size: 14px;
+    font-weight: 600;
+  }
+}
