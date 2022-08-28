@@ -1,4 +1,4 @@
-import { Component, ChangeEvent, createRef } from 'react';
+import React, { ChangeEvent, useEffect, useState, useRef } from 'react';
 
 interface RemoveItemData {
   group: string;
@@ -23,55 +23,18 @@ type SelectState = {
   selected: Array<SelectedItem>;
 }
 
-class Select extends Component<SelectProps, SelectState> {
-  public state: SelectState = {
-    isActive: false,
-    selected: [],
-  }
+const Select: React.FC<SelectProps> = (props: SelectProps) => {
+  const [isActive, setIsActive] = useState<boolean>(false);
+  const [selected, setSelected] = useState<Array<SelectedItem>>([]);
 
-  private selectRef = createRef<HTMLDivElement>();
+  const selectRef = useRef<HTMLDivElement>();
 
-  public render() {
-    return (
-      <div
-        ref={this.selectRef}
-        className={`select select--filter ${this.state.isActive ? `is-active` : ``}`}>
-        <div className="select__head" onClick={this.dropdownToggle}>
-          <div className="select__title">{this.props.title}</div>
-          <span className="select__count">{this.state.selected.length}</span>
-          <span className="select__arrow"></span>
-        </div>
-        {this.props.options.length > 0 && (
-          <ul
-            className="select__list">
-            {this.props.options.map((option: SelectedItem, index: number) => {
-              return (
-                <li
-                  className={`select__item ${this.isSelectedById(option.id) ? 'is-selected' : ''}`}
-                  data-item={option.id}
-                  key={index}
-                  onClick={this.selectItem}>
-                  <span className="select__item__title">
-                    {option.name}
-                  </span>
-                  <span className="select__item__pipe"></span>
-                </li>
-              )
-            })}
-          </ul>
-        )}
-      </div>
-    )
-  };
+  const dropdownToggle = (): void => setIsActive(!isActive);
 
-  public dropdownToggle = (): void => {
-    this.setState({ isActive: !this.state.isActive });
-  }
-
-  public selectItem = (e: ChangeEvent<HTMLLIElement>): void => {
+  const selectItem = (e: ChangeEvent<HTMLLIElement>): void => {
     const id = e.target.dataset.item;
-    const item = this.props.options.find(i => i.id === id);
-    let selectedItems = this.state.selected;
+    const item = props.options.find(i => i.id === id);
+    let selectedItems = selected;
 
     if (selectedItems.find(i => i.id === id)) {
       selectedItems = selectedItems.filter(item => item.id !== id);
@@ -83,46 +46,91 @@ class Select extends Component<SelectProps, SelectState> {
       });
     }
 
-    this.setState({ selected: selectedItems });
+    setSelected(selectedItems);
     //this.setState({ isActive: false });
-    this.props.onChange(this.props.name, selectedItems);
+    props.onChange(props.name, selectedItems);
   }
 
-  public isSelectedById = (id: string): boolean => {
-    const selectedItems = this.state.selected;
+  const isSelectedById = (id: string): boolean => {
+    const selectedItems = selected;
 
     if (selectedItems.find(i => i.id === id)) return true;
     return false;
   }
 
-  public selectClickOutside = (event: any): void => {
-    if (this.selectRef && !this.selectRef.current.contains(event.target)) {
-      this.setState({ isActive: false });
+  const selectClickOutside = (event: any): void => {
+    if (selectRef && !selectRef.current.contains(event.target)) {
+      setIsActive(false);
     }
   }
 
-  componentDidMount = (): void => {
-    document.addEventListener('mousedown', this.selectClickOutside);
-  };
+  useEffect(() => {
+    document.addEventListener('mousedown', selectClickOutside);
 
-  componentWillUnmount = (): void => {
-    document.removeEventListener('mousedown', this.selectClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', selectClickOutside);
+    }
+  }, []);
+
+  const usePrevious = (value) => {
+    const ref = useRef();
+
+    useEffect(() => {
+      ref.current = value;
+    });
+
+    return ref.current;
   }
 
-  componentDidUpdate = (prevProps): void => {
-    if (JSON.stringify(prevProps.removeItem) !== JSON.stringify(this.props.removeItem)) {
-      if (this.props.removeItem.group === this.props.name) {
-        let selectedItems = this.state.selected;
+  const { removeItem } = props;
+  const prevRemoveItem = usePrevious({removeItem});
 
-        if (selectedItems.find(i => i.id === this.props.removeItem.id)) {
-          selectedItems = selectedItems.filter(item => item.id !== this.props.removeItem.id);
+  useEffect(() => {
+    if (JSON.stringify(prevRemoveItem) !== JSON.stringify(removeItem)) {
+      if (removeItem.group === props.name) {
+        let selectedItems = selected;
+
+        if (selectedItems.find(i => i.id === removeItem.id)) {
+          selectedItems = selectedItems.filter(item => item.id !== removeItem.id);
         }
 
-        this.setState({ selected: selectedItems });
-        this.props.onChange(this.props.removeItem.group, selectedItems);
+        setSelected(selectedItems);
+        props.onChange(removeItem.group, selectedItems);
       }
     }
-  }
+  }, [removeItem]);
+
+  return (
+    <div
+      ref={selectRef}
+      className={`select select--filter ${isActive ? `is-active` : ``}`}>
+      <div className="select__head" onClick={dropdownToggle}>
+        <div className="select__title">{props.title}</div>
+        <span className="select__count">{selected.length}</span>
+        <span className="select__arrow"></span>
+      </div>
+      {props.options.length > 0 && (
+        <ul
+          className="select__list">
+          {props.options.map((option: SelectedItem, index: number) => {
+            return (
+              <li
+                className={`select__item ${isSelectedById(option.id) ? 'is-selected' : ''}`}
+                data-item={option.id}
+                key={index}
+                onClick={selectItem}
+              >
+                <span className="select__item__title">
+                  {option.name}
+                </span>
+                <span className="select__item__pipe"></span>
+              </li>
+            )
+          })}
+        </ul>
+      )}
+    </div>
+  )
 }
 
 export default Select;

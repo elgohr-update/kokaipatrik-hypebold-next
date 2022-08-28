@@ -1,228 +1,115 @@
-import { Component } from 'react';
+import { useState } from 'react';
 import Router from 'next/router';
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
-import { Dispatch } from 'redux';
+import { useSelector } from 'react-redux';
 
-import { authActionCreators } from '@/store/auth/index';
 import Input from '@/components/form/Input';
 import Checkbox from '@/components/form/Checkbox';
 import Modal from '@/components/Modal';
 import Axios from '@/utils/axios';
 
-type Msg = {
+export interface Msg {
+  state: String;
+  msg: String;
+};
+
+export interface ILogin {
+  email: string;
+  password: string;
+  msg: Msg;
+};
+
+export interface IRegister {
+  username: string;
+  email: string;
+  password: string;
+  terms: boolean;
+  msg: Msg;
+};
+
+export interface IForgotPassword {
+  email: string;
+};
+
+export interface IFieldHandler {
   state: string;
-  msg: string;
-}
-
-type AuthProps = {
-  auth: any;
+  field: string;
+  value: string;
 };
 
-type AuthState = {
-  auth: string,
-  isLoading: boolean,
-  login: {
-    email: string;
-    password: string;
-    msg: Msg;
-  },
-  register: {
-    username: string;
-    email: string;
-    password: string;
-    terms: boolean;
-    msg: Msg;
-  },
-  forgotPassword: {
-    email: string;
-  },
-};
+const Auth: React.FC = () => {
+  const authManagement = useSelector(state => state.auth);
 
-class Auth extends Component<AuthProps, AuthState> {
-  public state: AuthState = {
-    auth: 'login',
-    isLoading: false,
-    login: {
-      email: '',
-      password: '',
-      msg: {
-        state: '',
-        msg: '',
-      }
-    },
-    register: {
-      username: '',
-      email: '',
-      password: '',
-      terms: false,
-      msg: {
-        state: '',
-        msg: '',
-      }
-    },
-    forgotPassword: {
-      email: '',
-    },
+  const [auth, setAuth] = useState<String>('login');
+  const [isLoading, setIsLoading] = useState<Boolean>(false);
+  const [login, setLogin] = useState<ILogin>({
+    email: '',
+    password: '',
+    msg: {
+      state: '',
+      msg: '',
+    }
+  });
+  const [register, setRegister] = useState<IRegister>({
+    username: '',
+    email: '',
+    password: '',
+    terms: false,
+    msg: {
+      state: '',
+      msg: '',
+    }
+  });
+  const [forgotPassword, setForgotPassword] = useState<IForgotPassword>({
+    email: '',
+  });
+
+  const fieldHandler = (name: string, value: string): IFieldHandler => {
+    const [state, field] = name.split('.');
+
+    return {
+      state,
+      field,
+      value,
+    };
   };
 
-  public render() {
-    if (this.props.auth?.token) return null;
-    return (
-      <Modal
-        name="auth"
-        content={
-          <div className="container block__container">
-            {this.state.auth === 'login' && (
-              <div className="block__content block__content--login">
-                <div className="block__title">Login</div>
-                <div className="block__lead">
-                  or <span className="block__link" onClick={() => this.switch('register')}>Register</span>
-                </div>
-                <span className={`block__msg ${this.state.login.msg.state == 'success' ? 'block__msg--success' : this.state.login.msg.state == 'error' ? 'block__msg--error' : ''}`}>
-                  {this.state.login.msg.msg}
-                </span>
-                <div className="block__form">
-                  <form>
-                    <Input
-                      type="email"
-                      name="login.email"
-                      title="E-mail address"
-                      onChange={this.setValue.bind(this)}
-                    />
-                    <Input
-                      type="password"
-                      name="login.password"
-                      title="Password"
-                      onChange={this.setValue.bind(this)}
-                      eye={true}
-                    />
-                    <span
-                      className="block__link block__link--single"
-                      onClick={() => this.switch('forgot-password')}>
-                      Forgot password?
-                    </span>
-                    <button
-                      className={`btn btn-primary w-100 ${this.state.auth === 'login'
-                        && this.state.isLoading ? 'is-loading' : ''} `}
-                      onClick={this.login}
-                      disabled={!this.filled([this.state.login.email, this.state.login.password])}>
-                      Login
-                    </button>
-                  </form>
-                </div>
-              </div>
-            )}
+  const setValue = (field: string, value: string): void => {
+    const data = fieldHandler(field, value);
 
-            {this.state.auth === 'register' && (
-              <div className="block__content block__content--register">
-                <div className="block__title">Register</div>
-                <div className="block__lead">
-                  or <span className="block__link" onClick={() => this.switch('login')}>Login</span>
-                </div>
-                <span className={`block__msg ${this.state.register.msg.state == 'success' ? 'block__msg--success' : this.state.register.msg.state == 'error' ? 'block__msg--error' : ''}`}>
-                  {this.state.register.msg.msg}
-                </span>
-                <div className="block__form">
-                  <form>
-                    <Input
-                      type="text"
-                      name="register.username"
-                      title="Username"
-                      onChange={this.setValue.bind(this)}
-                    />
-                    <Input
-                      type="email"
-                      name="register.email"
-                      title="E-mail address"
-                      onChange={this.setValue.bind(this)}
-                    />
-                    <Input
-                      type="password"
-                      name="register.password"
-                      title="Password"
-                      onChange={this.setValue.bind(this)}
-                      eye={true}
-                    />
-                    <Checkbox
-                      name="register.terms"
-                      title="I agree the Terms and conditions."
-                      onChange={this.setValue.bind(this)}
-                    />
-                    <button
-                      className="btn btn-primary w-100"
-                      onClick={this.register}
-                      disabled={!this.filled([this.state.register.username, this.state.register.email, this.state.register.password, this.state.register.terms])}>
-                      Registration
-                    </button>
-                  </form>
-                </div>
-              </div>
-            )}
+    if (data.state === 'login') {
+      setLogin(prevState => ({
+        ...prevState,
+        [data.field]: value,
+      }));
+    }
 
-            {this.state.auth === 'forgot-password' && (
-              <div className="block__content block__content--forgot-password">
-                <div className="block__title">Forgot password</div>
-                <div className="block__lead">
-                  or <span className="block__link" onClick={() => this.switch('login')}>Login</span>
-                </div>
-                <div className="block__form">
-                  <form>
-                    <Input
-                      type="email"
-                      name="forgotPassword.email"
-                      title="E-mail address"
-                      onChange={this.setValue.bind(this)}
-                    />
-                    <button
-                      className="btn btn-primary w-100"
-                      onClick={this.forgotPassword}
-                      disabled={!this.filled([this.state.forgotPassword.email])}>
-                      Forgot password
-                    </button>
-                  </form>
-                </div>
-              </div>
-            )}
-          </div>
-        }
-      />
-    );
-  }
+    if (data.state === 'register') {
+      setRegister(prevState => ({
+        ...prevState,
+        [data.field]: value,
+      }));
+    }
 
-  public setValue = (field: string, value: string): void => {
-    const data = this.fieldHandler(field, value);
-    this.setState(data as Pick<AuthState, keyof AuthState>);
+    if (data.state === 'forgotPassword') {
+      setForgotPassword(prevState => ({
+        ...prevState,
+        [data.field]: value,
+      }));
+    }
   };
 
-  public fieldHandler = (field: string, value: string) => {
-    const currentState = this.state;
+  const filled = (fields: Array<string | boolean>): Boolean => fields.every(f => f);
 
-    if (field.includes('.')) currentState[field.split('.')[0]][field.split('.')[1]] = value;
-    else currentState[field] = value;
-
-    return currentState;
-  }
-
-  public switch = (auth: string) => {
-    this.setState({ auth: auth });
-  }
-
-  public filled = (fields: Array<string | boolean>) => {
-    return fields.every(f => f);
-  }
-
-  public login = async (e): Promise<void> => {
+  const loginFn = async (e): Promise<void> => {
     e.preventDefault();
 
-    if (this.state.login.email
-      && this.state.login.password) {
-      this.setState({ isLoading: true });
+    if (login.email && login.password) {
+      setIsLoading(true);
 
       try {
         const user = await Axios.post('/auth/login', {
-          email: this.state.login.email,
-          password: this.state.login.password,
+          email: login.email,
+          password: login.password,
         });
 
         if (user && user.data?.token) {
@@ -231,64 +118,91 @@ class Auth extends Component<AuthProps, AuthState> {
         }
       }
       catch (e) {
-        const loginState = this.state.login;
-
-        if (e.response) loginState.msg = { state: 'error', msg: e.response.data?.message };
-        else loginState.msg = { state: 'error', msg: 'Login failed.' };
-
-        this.setState({ login: loginState });
+        if (e.response) {
+          setLogin(prevState => ({
+            ...prevState,
+            msg: {
+              state: 'error',
+              msg: e.response.data?.message,
+            },
+          }));
+        }
+        else {
+          setLogin(prevState => ({
+            ...prevState,
+            msg: {
+              state: 'error',
+              msg: 'Login failed.',
+            },
+          }));
+        }
       }
       finally {
-        setTimeout(() => this.setState({ isLoading: false }), 800);
+        setTimeout(() => setIsLoading(false), 800);
       }
     }
   };
 
-  public register = async (e): Promise<void> => {
+  const registerFn = async (e): Promise<void> => {
     e.preventDefault();
 
-    if (this.state.register.username 
-      && this.state.register.email
-      && this.state.register.password) {
-      this.setState({ isLoading: true });
+    if (register.username
+      && register.email
+      && register.password) {
+      setIsLoading(true);
 
       try {
         await Axios.post('/user/register', {
-          username: this.state.register.username,
-          email: this.state.register.email,
-          password: this.state.register.password,
+          username: register.username,
+          email: register.email,
+          password: register.password,
           createdAt: new Date(),
           updatedAt: new Date(),
         });
 
-        const registerState = this.state.register;
-        registerState.msg = { state: 'success', msg: 'Successful registration.' };
-
-        this.setState({ register: registerState });
+        setRegister(prevState => ({
+          ...prevState,
+          msg: {
+            state: 'success',
+            msg: 'Successful registration.',
+          },
+        }));
       }
       catch (e) {
-        const registerState = this.state.register;
-
-        if (e.response) registerState.msg = { state: 'error', msg: e.response.data?.message };
-        else registerState.msg = { state: 'error', msg: 'Registration failed.' };
-
-        this.setState({ register: registerState });
+        if (e.response) {
+          setRegister(prevState => ({
+            ...prevState,
+            msg: {
+              state: 'error',
+              msg: e.response.data?.message,
+            },
+          }));
+        }
+        else {
+          setRegister(prevState => ({
+            ...prevState,
+            msg: {
+              state: 'error',
+              msg: 'Registration failed.',
+            },
+          }));
+        }
       }
       finally {
-        setTimeout(() => this.setState({ isLoading: false }), 250);
+        setTimeout(() => setIsLoading(false), 250);
       }
     }
   };
 
-  public forgotPassword = async (e): Promise<void> => {
+  const forgotPasswordFn = async (e): Promise<void> => {
     e.preventDefault();
 
-    if (this.state.forgotPassword.email) {
-      this.setState({ isLoading: true });
+    if (forgotPassword.email) {
+      setIsLoading(true);
 
       try {
         const user = await Axios.post('/auth/forgot-password', {
-          email: this.state.register.email,
+          email: register.email,
         });
 
         console.log(user);
@@ -297,23 +211,148 @@ class Auth extends Component<AuthProps, AuthState> {
         console.log(e);
       }
       finally {
-        setTimeout(() => this.setState({ isLoading: false }), 250);
+        setTimeout(() => setIsLoading(false), 250);
       }
     }
   };
-}
 
-const mapStateToProps = (state: any) => {
-  return {
-    auth: state.auth,
-  };
+  if (authManagement?.token) return null;
+  return (
+    <Modal
+      name="auth"
+      content={
+        <div className="container block__container">
+          {auth === 'login' && (
+            <div className="block__content block__content--login">
+              <div className="block__title">Login</div>
+              <div className="block__lead">
+                or
+                <span
+                  className="block__link"
+                  onClick={() => setAuth('register')}
+                >
+                  Register
+                </span>
+              </div>
+              <span className={`block__msg ${login.msg.state == 'success' ? 'block__msg--success' : login.msg.state == 'error' ? 'block__msg--error' : ''}`}>
+                {login.msg.msg}
+              </span>
+              <div className="block__form">
+                <form>
+                  <Input
+                    type="email"
+                    name="login.email"
+                    title="E-mail address"
+                    onChange={setValue.bind(this)}
+                  />
+                  <Input
+                    type="password"
+                    name="login.password"
+                    title="Password"
+                    onChange={setValue.bind(this)}
+                    eye={true}
+                  />
+                  <span
+                    className="block__link block__link--single"
+                    onClick={() => setAuth('forgot-password')}
+                  >
+                    Forgot password?
+                  </span>
+                  <button
+                    className={`btn btn-primary w-100 ${auth === 'login'
+                      && isLoading ? 'is-loading' : ''} `}
+                    onClick={loginFn}
+                    disabled={!filled([login.email, login.password])}
+                  >
+                    Login
+                  </button>
+                </form>
+              </div>
+            </div>
+          )}
+
+          {auth === 'register' && (
+            <div className="block__content block__content--register">
+              <div className="block__title">Register</div>
+              <div className="block__lead">
+                or <span className="block__link" onClick={() => setAuth('login')}>Login</span>
+              </div>
+              <span className={`block__msg ${register.msg.state == 'success' ? 'block__msg--success' : register.msg.state == 'error' ? 'block__msg--error' : ''}`}>
+                {register.msg.msg}
+              </span>
+              <div className="block__form">
+                <form>
+                  <Input
+                    type="text"
+                    name="register.username"
+                    title="Username"
+                    onChange={setValue.bind(this)}
+                  />
+                  <Input
+                    type="email"
+                    name="register.email"
+                    title="E-mail address"
+                    onChange={setValue.bind(this)}
+                  />
+                  <Input
+                    type="password"
+                    name="register.password"
+                    title="Password"
+                    onChange={setValue.bind(this)}
+                    eye={true}
+                  />
+                  <Checkbox
+                    name="register.terms"
+                    title="I agree the Terms and conditions."
+                    onChange={setValue.bind(this)}
+                  />
+                  <button
+                    className="btn btn-primary w-100"
+                    onClick={registerFn}
+                    disabled={!filled([register.username, register.email, register.password, register.terms])}
+                  >
+                    Registration
+                  </button>
+                </form>
+              </div>
+            </div>
+          )}
+
+          {auth === 'forgot-password' && (
+            <div className="block__content block__content--forgot-password">
+              <div className="block__title">Forgot password</div>
+              <div className="block__lead">
+                or
+                <span
+                  className="block__link"
+                  onClick={() => setAuth('login')}
+                >
+                  Login
+                </span>
+              </div>
+              <div className="block__form">
+                <form>
+                  <Input
+                    type="email"
+                    name="forgotPassword.email"
+                    title="E-mail address"
+                    onChange={setValue.bind(this)}
+                  />
+                  <button
+                    className="btn btn-primary w-100"
+                    onClick={forgotPasswordFn}
+                    disabled={!filled([forgotPassword.email])}
+                  >
+                    Forgot password
+                  </button>
+                </form>
+              </div>
+            </div>
+          )}
+        </div>
+      }
+    />
+  );
 };
 
-const mapDispatchToProps = (dispatch: Dispatch) => ({
-  ...bindActionCreators(authActionCreators, dispatch),
-});
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(Auth);
+export default Auth;

@@ -1,4 +1,3 @@
-import { Component } from 'react';
 import Head from 'next/head';
 
 import Layout, { siteTitle } from '@/components/Layout';
@@ -11,17 +10,19 @@ type CategoryProps = {
   category: Categories;
 };
 
-class CategoryPage extends Component<CategoryProps> {
-  public render() {
-    return (
-      <Layout>
-        <Head>
-          <title>{this.props.category?.name ? this.props.category.name : null} – {siteTitle}</title>
-        </Head>
-        <Category title={this.props.category?.name ? this.props.category.name : null} data={this.props.queries} categoryId={this.props.category?._id} />
-      </Layout>
-    )
-  }
+const CategoryPage = (props: CategoryProps) => {
+  return (
+    <Layout>
+      <Head>
+        <title>{props.category?.name ? props.category.name : null} – {siteTitle}</title>
+      </Head>
+      <Category
+        title={props.category?.name ? props.category.name : null}
+        data={props.queries}
+        categoryId={props.category?._id}
+      />
+    </Layout>
+  )
 }
 
 export default CategoryPage;

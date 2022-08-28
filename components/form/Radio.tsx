@@ -1,4 +1,4 @@
-import { Component } from 'react';
+import React, { useState } from 'react';
 
 type RadioProps = {
   name: string;
@@ -7,30 +7,22 @@ type RadioProps = {
   onChange: any;
 };
 
-type RadioState = {
-  value: any;
-};
+const Radio: React.FC<RadioProps> = (props: RadioProps) => {
+  const [value, setValue] = useState<any>('');
 
-class Radio extends Component<RadioProps, RadioState> {
-  public state: RadioState = {
-    value: '',
+  const handleChange = (title: string | object): void => {
+    props.onChange(props.name, title);
   };
 
-  public render() {
-    return (
-      <div
-        className={`block block--radio ${this.props.isActive ? 'is-active' : ''}`}
-        onClick={() => this.handleChange(this.props.option)}>
-        <div className="block__name">
-          {this.props.option.name}
-        </div>
+  return (
+    <div
+      className={`block block--radio ${props.isActive ? 'is-active' : ''}`}
+      onClick={() => handleChange(props.option)}>
+      <div className="block__name">
+        {props.option.name}
       </div>
-    );
-  };
-
-  public handleChange = (title: string | object): void => {
-    this.props.onChange(this.props.name, title);
-  };
+    </div>
+  );
 }
 
 export default Radio;

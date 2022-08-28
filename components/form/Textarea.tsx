@@ -1,4 +1,4 @@
-import { ChangeEvent, Component } from 'react';
+import { ChangeEvent, useState } from 'react';
 
 type TextareaProps = {
   name: string;
@@ -6,46 +6,34 @@ type TextareaProps = {
   onChange: any;
 };
 
-type TextareaState = {
-  value: string;
-};
+const Textarea: React.FC<TextareaProps> = (props: TextareaProps) => {
+  const [value, setValue] = useState('');
 
-class Textarea extends Component<TextareaProps, TextareaState> {
-  constructor(props: any) {
-    super(props);
-  }
-
-  public state: TextareaState = {
-    value: '',
+  const handleChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
+    setValue(e.target.value);
+    props.onChange(e.target.name, e.target.value);
   };
 
-  public render() {
-    return (
-      <div className="form-group">
-        <textarea
-          name={this.props.name}
-          id={this.props.name}
-          value={this.state.value}
-          rows={5}
-          className={`form-control ${this.hasValue() ? 'has-value' : ''}`}
-          onChange={this.handleChange}
-        />
-        <label className="label label-textarea" htmlFor={this.props.name}>
-          {this.props.title}
-        </label>
-      </div>
-    );
-  };
-
-  public handleChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
-    this.setState({ value: e.target.value });
-    this.props.onChange(e.target.name, e.target.value);
-  };
-
-  public hasValue = (): boolean => {
-    if (this.state.value) return true;
+  const hasValue = (): boolean => {
+    if (value) return true;
     return false;
   };
+
+  return (
+    <div className="form-group">
+      <textarea
+        name={props.name}
+        id={props.name}
+        value={value}
+        rows={5}
+        className={`form-control ${hasValue() ? 'has-value' : ''}`}
+        onChange={handleChange}
+      />
+      <label className="label label-textarea" htmlFor={props.name}>
+        {props.title}
+      </label>
+    </div>
+  );
 }
 
 export default Textarea;

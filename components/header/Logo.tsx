@@ -1,11 +1,9 @@
-import { Component } from 'react';
+import React from 'react';
 
 import HyperLogo from '@/assets/svg/logo.svg';
 
-class Logo extends Component {
-  public render() {
-    return <img src={HyperLogo.src} alt="Hyper" title="Hyper" />;
-  }
+const Logo: React.FC = () => {
+  return <img src={HyperLogo.src} alt="Hyper" title="Hyper" />;
 }
 
 export default Logo;

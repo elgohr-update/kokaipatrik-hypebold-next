@@ -25,6 +25,7 @@ export interface Currencies {
 }
 
 export type Data = {
+  sizes: any;
   categories: Array<Categories>;
   brands: Array<Brands>;
   conditions: Array<Conditions>;

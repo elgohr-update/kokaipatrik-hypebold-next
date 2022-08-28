@@ -1,4 +1,4 @@
-import { ChangeEvent, Component } from 'react';
+import React, { ChangeEvent, useState } from 'react';
 
 type CheckboxProps = {
   name: string;
@@ -6,40 +6,29 @@ type CheckboxProps = {
   onChange: any;
 };
 
-type CheckboxState = {
-  value: boolean;
-};
+const Checkbox: React.FC<CheckboxProps> = (props: CheckboxProps) => {
+  const [checkboxState, setCheckboxState] = useState<boolean>(false);
 
-class Checkbox extends Component<CheckboxProps, CheckboxState> {
-  constructor(props: any) {
-    super(props);
-  }
+  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+    setCheckboxState(!checkboxState);
 
-  public state: CheckboxState = {
-    value: false,
+    props.onChange(e.target.name, !checkboxState);
   };
 
-  public render() {
-    return (
-      <div className="form-group">
-        <label className="form-checkbox-container">
-          {this.props.title}
-          <input
-            type="checkbox"
-            className="form-checkbox-input"
-            name={this.props.name}
-            onChange={this.handleChange}
-          />
-          <span className="form-checkbox-mark"></span>
-        </label>
-      </div>
-    );
-  };
-
-  public handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-    this.setState({ value: !this.state.value });
-    this.props.onChange(e.target.name, !this.state.value);
-  };
+  return (
+    <div className="form-group">
+      <label className="form-checkbox-container">
+        {props.title}
+        <input
+          type="checkbox"
+          className="form-checkbox-input"
+          name={props.name}
+          onChange={handleChange}
+        />
+        <span className="form-checkbox-mark"></span>
+      </label>
+    </div>
+  );
 }
 
 export default Checkbox;

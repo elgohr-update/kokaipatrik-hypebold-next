@@ -1,4 +1,4 @@
-import { Component } from 'react';
+import React from 'react';
 
 interface ProgressBarItems {
   name: string;
@@ -11,36 +11,32 @@ type ProgressBarProps = {
   onClick: any;
 }
 
-class ProgressBar extends Component<ProgressBarProps> {
-  public render() {
-    return (
-      <div className="block block--progressbar">
-        {this.props.items.length > 0 && (
-          <ul className="block__list">
-            {this.props.items.map((item, index) => {
-              return (
-                <li
-                  className={`block__item ${this.props.active === index ? 'is-active' : ''}`}
-                  key={index}
-                  onClick={() => this.changeStep(index)}>
-                  <span className="block__item__count">
-                    {index + 1}
-                  </span>
-                  <span className="block__item__title">
-                    {item.title}
-                  </span>
-                </li>
-              )
-            })}
-          </ul>
-        )}
-      </div>
-    );
-  };
+const ProgressBar: React.FC<ProgressBarProps> = (props: ProgressBarProps) => {
+  const changeStep = (index: number) => props.onClick(index);
 
-  public changeStep = (index: number) => {
-    this.props.onClick(index);
-  };
+  return (
+    <div className="block block--progressbar">
+      {props.items.length > 0 && (
+        <ul className="block__list">
+          {props.items.map((item, index) => {
+            return (
+              <li
+                className={`block__item ${props.active === index ? 'is-active' : ''}`}
+                key={index}
+                onClick={() => changeStep(index)}>
+                <span className="block__item__count">
+                  {index + 1}
+                </span>
+                <span className="block__item__title">
+                  {item.title}
+                </span>
+              </li>
+            )
+          })}
+        </ul>
+      )}
+    </div>
+  );
 }
 
 export default ProgressBar;
