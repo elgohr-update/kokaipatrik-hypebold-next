@@ -2,7 +2,7 @@ import { useState } from 'react';
 import Head from 'next/head';
 import { useSelector } from 'react-redux';
 
-import Layout, { siteTitle } from '@/components/Layout';
+import { siteTitle } from '@/components/Layout';
 import ProgressBar from '@/components/blocks/ProgressBar';
 import ContentBlock from '@/components/blocks/ContentBlock';
 import Input from '@/components/form/Input';
@@ -174,7 +174,7 @@ const NewAdPage: React.FC = () => {
 
   if (!authManagement?.token) return null;
   return (
-    <Layout>
+    <>
       <Head>
         <title>New ad – {siteTitle}</title>
       </Head>
@@ -398,7 +398,7 @@ const NewAdPage: React.FC = () => {
           </div>
         </div>
       </main>
-    </Layout>
+    </>
   );
 }
 

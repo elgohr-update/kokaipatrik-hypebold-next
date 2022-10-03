@@ -1,6 +1,6 @@
 import Head from 'next/head';
 
-import Layout, { siteTitle } from '@/components/Layout';
+import { siteTitle } from '@/components/Layout';
 import Category from '@/components/Category';
 import { getCategoryQueriesByUrl, getCategoryDataByUrl } from '@/pages/api/categories';
 import { Categories } from '@/types/types';
@@ -10,9 +10,9 @@ type CategoryProps = {
   category: Categories;
 };
 
-const CategoryPage = (props: CategoryProps) => {
+const CategoryPage: React.FC = (props: CategoryProps) => {
   return (
-    <Layout>
+    <>
       <Head>
         <title>{props.category?.name ? props.category.name : null} – {siteTitle}</title>
       </Head>
@@ -21,7 +21,7 @@ const CategoryPage = (props: CategoryProps) => {
         data={props.queries}
         categoryId={props.category?._id}
       />
-    </Layout>
+    </>
   )
 }
 
