@@ -38,7 +38,7 @@ const InputSelect: React.FC<InputProps> = (props: InputProps) => {
   }
 
   const { options } = props;
-  const prevOptions = usePrevious({options});
+  const prevOptions = usePrevious({options}) as any;
 
   useEffect(() => {
     if (JSON.stringify(prevOptions?.options) !== JSON.stringify(options)) {

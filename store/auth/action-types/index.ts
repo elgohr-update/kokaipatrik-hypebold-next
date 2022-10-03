@@ -4,5 +4,5 @@ export enum ActionType {
 
 export interface IAuth {
   token: string;
-  data: [];
+  data: any;
 }

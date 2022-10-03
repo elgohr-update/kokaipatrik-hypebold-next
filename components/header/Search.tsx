@@ -5,7 +5,6 @@ import SearchIcon from '@/assets/svg/icons/search.svg';
 
 type SearchProps = {
   searchInput: any;
-  auth: any;
 };
 
 const Search: React.FC<SearchProps> = (props: SearchProps) => {

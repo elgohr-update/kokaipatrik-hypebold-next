@@ -10,17 +10,17 @@ import InputSelect from '@/components/form/InputSelect';
 import Radio from '@/components/form/Radio';
 import Textarea from '@/components/form/Textarea';
 import ImageFileSelect from '@/components/form/ImageFileSelect';
-
-type SneakerSize = {
-  eu: number;
-  us: number;
-  uk: number;
-}
+import { ShoesSize } from '@/types/types';
 
 type SelectedSizeValue = {
   categoryUrl: string;
-  title: SneakerSize | string;
+  title: ShoesSize | string;
 };
+
+export interface Sizes {
+  size: string | ShoesSize;
+  categoryUrl: string;
+}
 
 type SelectedValue = {
   url: string;
@@ -127,13 +127,13 @@ const NewAdPage: React.FC = () => {
     },
   ];
 
-  const sizesByCategoryUrl = (categoryUrl: string) => {
+  const sizesByCategoryUrl = (categoryUrl: string): any => {
     return (config?.data?.sizes)
       ? config?.data?.sizes?.filter(s => s.categoryUrl === categoryUrl)
       : '';
   };
 
-  const transformSizesObject = (sizes: Array<any>): Array<SelectedSizeValue> => {
+  const transformSizesObject = (sizes: Array<Sizes>): Array<SelectedSizeValue> => {
     return sizes.map(({ size, categoryUrl }) => ({
       title: size,
       categoryUrl,
@@ -296,6 +296,7 @@ const NewAdPage: React.FC = () => {
                               <Textarea
                                 name="product.description"
                                 title="Product description"
+                                value={product.description}
                                 onChange={setValue.bind(this)}
                               />
                             </div>
@@ -394,8 +395,6 @@ const NewAdPage: React.FC = () => {
                 </div>
               </div>
             )}
-
-            {JSON.stringify(product)}
           </div>
         </div>
       </main>

@@ -169,7 +169,6 @@ const Category: React.FC<CategoryProps> = (props: CategoryProps) => {
             selectedItems.size.length > 0 ||
             selectedItems.condition.length > 0) && (
               <div className="block block--selected-items">
-                van
                 {Object.keys(selectedItems).map((itemGroup) => {
                   return (
                     selectedItems[itemGroup].length > 0 && (

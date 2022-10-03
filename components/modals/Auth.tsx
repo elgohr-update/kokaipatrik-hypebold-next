@@ -226,13 +226,7 @@ const Auth: React.FC = () => {
             <div className="block__content block__content--login">
               <div className="block__title">Login</div>
               <div className="block__lead">
-                or
-                <span
-                  className="block__link"
-                  onClick={() => setAuth('register')}
-                >
-                  Register
-                </span>
+                or <span className="block__link" onClick={() => setAuth('register')}>Register</span>
               </div>
               <span className={`block__msg ${login.msg.state == 'success' ? 'block__msg--success' : login.msg.state == 'error' ? 'block__msg--error' : ''}`}>
                 {login.msg.msg}
@@ -322,13 +316,7 @@ const Auth: React.FC = () => {
             <div className="block__content block__content--forgot-password">
               <div className="block__title">Forgot password</div>
               <div className="block__lead">
-                or
-                <span
-                  className="block__link"
-                  onClick={() => setAuth('login')}
-                >
-                  Login
-                </span>
+                or <span className="block__link" onClick={() => setAuth('login')}>Login</span>
               </div>
               <div className="block__form">
                 <form>

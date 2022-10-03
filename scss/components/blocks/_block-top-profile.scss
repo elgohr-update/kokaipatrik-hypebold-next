@@ -67,7 +67,7 @@
     }
   }
 
-  .block__dropdown__list {
+  .block__dropdown-list {
     padding: 12px;
     border-radius: 6px;
     background: rgba(255, 255, 255, .94);
@@ -76,12 +76,12 @@
     backdrop-filter: blur(5px);
   }
 
-  .block__dropdown__item {
+  .block__dropdown-item {
     line-height: normal;
   }
 
-  .block__dropdown__item,
-  .block__dropdown__link {
+  .block__dropdown-item,
+  .block__dropdown-link {
     display: block;
     width: 100%;
     margin-bottom: 6px;

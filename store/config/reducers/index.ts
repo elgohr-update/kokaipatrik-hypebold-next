@@ -2,7 +2,14 @@ import { ActionType, IConfig } from '@/store/config/action-types/index';
 import { Action } from '@/store/config/actions/index';
 
 const configReducerInitialState: IConfig = {
-  data: [],
+  data: {
+    sizes: [],
+    categories: [],
+    brands: [],
+    conditions: [],
+    currencies: [],
+    deliveries: [],
+  }
 };
 
 export const configReducer = (

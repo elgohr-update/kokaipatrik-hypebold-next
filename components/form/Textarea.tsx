@@ -3,6 +3,7 @@ import { ChangeEvent, useState } from 'react';
 type TextareaProps = {
   name: string;
   title: string;
+  value?: any;
   onChange: any;
 };
 
@@ -15,7 +16,7 @@ const Textarea: React.FC<TextareaProps> = (props: TextareaProps) => {
   };
 
   const hasValue = (): boolean => {
-    if (value) return true;
+    if (props.value) return true;
     return false;
   };
 
@@ -24,7 +25,7 @@ const Textarea: React.FC<TextareaProps> = (props: TextareaProps) => {
       <textarea
         name={props.name}
         id={props.name}
-        value={value}
+        value={props.value}
         rows={5}
         className={`form-control ${hasValue() ? 'has-value' : ''}`}
         onChange={handleChange}

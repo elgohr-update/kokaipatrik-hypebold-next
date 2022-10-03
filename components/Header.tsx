@@ -99,7 +99,7 @@ const Header: React.FC = () => {
       else dispatch(actionCreators.backdropToggle(true));
     }
     else {
-      setAuthMenuIsActive(authMenuIsActive);
+      setAuthMenuIsActive(true);
 
       if (authMenuIsActive) dispatch(actionCreators.backdropToggle(false));
       else dispatch(actionCreators.backdropToggle(true));
@@ -158,7 +158,7 @@ const Header: React.FC = () => {
       setCategories(configData.data.data.categories);
       setBrands(configData.data.data.brands);
     } catch (error) {
-      throw new Error('Server sucks', error);
+      throw new Error(`Server sucks ${error}`);
     }
   };
 
@@ -383,7 +383,7 @@ const Header: React.FC = () => {
                         onClick={openProfileDropdown}
                       >
                         <span className="block__name">
-                          {auth?.data?.username?.split(' ')[0]}
+                          {auth?.data?.username}
                         </span>
                         <figure className="block__figure">
                           <img
@@ -397,15 +397,15 @@ const Header: React.FC = () => {
                       <div
                         className={`block__dropdown ${profileDropdownIsActive ? 'is-active' : ''}`}>
                         {authNavItems.length && (
-                          <ul className="block__dropdown__list">
+                          <ul className="block__dropdown-list">
                             {authNavItems.map((item, index) => {
                               return (
                                 <li
-                                  className="block__dropdown__item"
+                                  className="block__dropdown-item"
                                   key={index}
                                 >
                                   <Link href={item.url}>
-                                    <a className="block__dropdown__link">
+                                    <a className="block__dropdown-link">
                                       {item.name}
                                     </a>
                                   </Link>
@@ -413,7 +413,7 @@ const Header: React.FC = () => {
                               )
                             })}
                             <li
-                              className="block__dropdown__item"
+                              className="block__dropdown-item"
                               onClick={() => logout()}
                             >
                               Logout
@@ -446,15 +446,15 @@ const Header: React.FC = () => {
             {auth?.data?.username?.split(' ')[0]}
           </span>
         </div>
-        <ul className="block__dropdown__list">
+        <ul className="block__dropdown-list">
           {authNavItems.map((item, index) => {
             return (
               <li
-                className="block__dropdown__item"
+                className="block__dropdown-item"
                 key={index}
               >
                 <Link href={item.url}>
-                  <a className="block__dropdown__link">
+                  <a className="block__dropdown-link">
                     {item.name}
                   </a>
                 </Link>
@@ -462,7 +462,7 @@ const Header: React.FC = () => {
             )
           })}
           <li
-            className="block__dropdown__item"
+            className="block__dropdown-item"
             onClick={() => logout()}
           >
             Logout

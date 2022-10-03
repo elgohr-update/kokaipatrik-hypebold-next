@@ -118,7 +118,7 @@ const Select: React.FC<SelectProps> = (props: SelectProps) => {
                 className={`select__item ${isSelectedById(option.id) ? 'is-selected' : ''}`}
                 data-item={option.id}
                 key={index}
-                onClick={selectItem}
+                onClick={() => selectItem}
               >
                 <span className="select__item__title">
                   {option.name}
