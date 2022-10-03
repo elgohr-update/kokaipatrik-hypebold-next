@@ -8,7 +8,8 @@ ENV NEXT_PUBLIC_HYPEBOLD_API=${NEXT_PUBLIC_HYPEBOLD_API}
 RUN mkdir -p /usr/src/app
 WORKDIR /usr/src/app
 COPY package*.json ./
-RUN yarn
+COPY yarn.lock ./
+RUN yarn install
 COPY . .
 RUN yarn build
 EXPOSE 3001
