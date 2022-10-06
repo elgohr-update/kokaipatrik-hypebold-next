@@ -185,6 +185,18 @@ const Header: React.FC = () => {
     }
   };
 
+  const getMonogram = (username: string) => {
+    if (username) {
+      const name = username.split(' ');
+
+      if (name.length > 1) {
+        return (name[0].charAt(0) + name[1].charAt(0)).toUpperCase();
+      } else {
+        return username.slice(0, 2).toUpperCase();
+      }
+    }
+  };
+
   useEffect(() => {
     window.addEventListener('scroll', isScrolledFn);
     document.addEventListener('mousedown', profileDropdownClickOutside);
@@ -383,7 +395,7 @@ const Header: React.FC = () => {
                         onClick={openProfileDropdown}
                       >
                         <span className="block__name">
-                          {auth?.data?.username}
+                          {getMonogram(auth?.data?.username)}
                         </span>
                         <figure className="block__figure">
                           <img
@@ -443,7 +455,7 @@ const Header: React.FC = () => {
             />
           </figure>
           <span className="block__name">
-            {auth?.data?.username?.split(' ')[0]}
+            {getMonogram(auth?.data?.username)}
           </span>
         </div>
         <ul className="block__dropdown-list">
