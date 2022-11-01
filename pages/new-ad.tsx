@@ -96,12 +96,6 @@ const NewAdPage: React.FC = () => {
       filled: false,
     },
     {
-      name: 'images',
-      title: 'Images',
-      active: false,
-      filled: false,
-    },
-    {
       name: 'summary',
       title: 'Summary',
       active: false,

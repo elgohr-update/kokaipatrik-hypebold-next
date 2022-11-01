@@ -10,6 +10,7 @@ export const hasToken = (): Boolean => {
 export const logout = (): void => {
   if (typeof window !== 'undefined') {
     localStorage.removeItem('token');
+    localStorage.removeItem('ignore');
     Router.reload();
   }
 };

@@ -14,6 +14,37 @@
   visibility: hidden;
   z-index: 3;
 
+  &.block--modal-first-steps {
+    .block__title {
+      margin: 12px 0 8px;
+    }
+
+    .block__lead {
+      margin-bottom: 12px;
+      font-weight: 500;
+    }
+
+    .block__form {
+      padding: 24px;
+      border-radius: 12px;
+      box-shadow: $box-shadow;
+    }
+
+    .block__bottom {
+      display: flex;
+      justify-content: center;
+      margin-top: 18px;
+    }
+
+    .block__action {
+      color: $mid-gray;
+      font-size: 14px;
+      font-weight: 600;
+      line-height: 20px;
+      cursor: pointer;
+    }
+  }
+
   &.is-active {
     bottom: 0;
     opacity: 1;
@@ -140,6 +171,13 @@
     padding: 35px 40px 40px;
     transform: translate(-50%, -50%) scale(.97);
     border-radius: 12px;
+
+    &.block--modal-first-steps {
+      .block__lead {
+        font-size: 16px;
+        line-height: 26px;
+      }
+    }
 
     &.is-active {
       transform: translate(-50%, -50%) scale(1);

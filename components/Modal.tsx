@@ -8,6 +8,7 @@ import Exit from '@/assets/svg/icons/exit-modal.svg';
 type ModalProps = {
   name: string;
   content: any;
+  externalExitFn?: Function;
 };
 
 const Modal: React.FC<ModalProps> = (props: ModalProps) => {

@@ -7,7 +7,10 @@ const Backdrop: React.FC = () => {
   const backdrop = useSelector(state => state.backdrop);
 
   const disableBackdrop = (): void => {
-    if (backdrop) dispatch(actionCreators.backdropToggle(!backdrop));
+    if (backdrop) {
+      dispatch(actionCreators.backdropToggle(!backdrop));
+      localStorage.setItem('ignore', 'true');
+    }
   };
 
   return (

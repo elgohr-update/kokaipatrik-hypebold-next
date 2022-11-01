@@ -37,13 +37,15 @@ const InputSelect: React.FC<InputProps> = (props: InputProps) => {
     return ref.current;
   }
 
-  const { options } = props;
+  const { options, defaultOption } = props;
   const prevOptions = usePrevious({options}) as any;
 
   useEffect(() => {
     if (JSON.stringify(prevOptions?.options) !== JSON.stringify(options)) {
-      setValue('');
-      props.onChange(props.name, '');
+      if (!defaultOption) {
+        setValue('');
+        props.onChange(props.name, '');
+      }
     }
   }, [options]);
 

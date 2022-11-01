@@ -9,9 +9,10 @@ type LayoutProps = {
 
 const Layout: React.FC = (props: LayoutProps) => {
   return (
-    <div>
+    <>
       <Head>
         <link rel="icon" href="/favicon.ico" />
+        <link rel="manifest" href="/manifest.json" />
         <meta
           name="description"
           content="Learn how to build a personal website using Next.js"
@@ -25,8 +26,10 @@ const Layout: React.FC = (props: LayoutProps) => {
         <meta name="og:title" content={siteTitle} />
         <meta name="twitter:card" content="summary_large_image" />
       </Head>
-      <main>{props.children}</main>
-    </div>
+      <main>
+        {props.children}
+      </main>
+    </>
   )
 }
 
