@@ -18,11 +18,8 @@ export type ShoesSize = {
 }
 
 export interface Sizes {
-  _id: string;
-  updatedAt: Date;
-  createdAt: Date;
   size: string | ShoesSize;
-  categoryId: string;
+  categoryUrl: string;
 }
 
 export interface TransformedSizes {
@@ -31,12 +28,9 @@ export interface TransformedSizes {
 }
 
 export interface Brands {
-  _id: string;
-  updatedAt: Date;
-  createdAt: Date;
-  description: string;
-  url: string;
   name: string;
+  url: string;
+  description: string;
 }
 
 export interface TransformedBrands {
@@ -45,11 +39,8 @@ export interface TransformedBrands {
 }
 
 export interface Conditions {
-  _id: string;
-  updatedAt: Date;
-  createdAt: Date;
-  url: string;
   name: string;
+  url: string;
 }
 
 export interface TransformedConditions {

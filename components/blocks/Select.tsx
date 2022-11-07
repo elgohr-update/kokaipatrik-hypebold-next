@@ -1,4 +1,4 @@
-import React, { ChangeEvent, useEffect, useState, useRef } from 'react';
+import React, { MouseEvent, useEffect, useState, useRef } from 'react';
 
 interface RemoveItemData {
   group: string;
@@ -11,16 +11,12 @@ type SelectProps = {
   options: any;
   onChange: any;
   removeItem: RemoveItemData;
+  clearItems: boolean;
 }
 
 interface SelectedItem {
   id: string;
   name: string;
-}
-
-type SelectState = {
-  isActive: boolean;
-  selected: Array<SelectedItem>;
 }
 
 const Select: React.FC<SelectProps> = (props: SelectProps) => {
@@ -31,8 +27,8 @@ const Select: React.FC<SelectProps> = (props: SelectProps) => {
 
   const dropdownToggle = (): void => setIsActive(!isActive);
 
-  const selectItem = (e: ChangeEvent<HTMLLIElement>): void => {
-    const id = e.target.dataset.item;
+  const selectItem = (e: MouseEvent<HTMLLIElement>): void => {
+    const id = e.currentTarget.getAttribute('data-item');
     const item = props.options.find(i => i.id === id);
     let selectedItems = selected;
 
@@ -47,22 +43,21 @@ const Select: React.FC<SelectProps> = (props: SelectProps) => {
     }
 
     setSelected(selectedItems);
-    //this.setState({ isActive: false });
     props.onChange(props.name, selectedItems);
-  }
+  };
 
   const isSelectedById = (id: string): boolean => {
     const selectedItems = selected;
 
     if (selectedItems.find(i => i.id === id)) return true;
     return false;
-  }
+  };
 
   const selectClickOutside = (event: any): void => {
     if (selectRef && !selectRef.current.contains(event.target)) {
       setIsActive(false);
     }
-  }
+  };
 
   useEffect(() => {
     document.addEventListener('mousedown', selectClickOutside);
@@ -80,7 +75,7 @@ const Select: React.FC<SelectProps> = (props: SelectProps) => {
     });
 
     return ref.current;
-  }
+  };
 
   const { removeItem } = props;
   const prevRemoveItem = usePrevious({removeItem});
@@ -100,6 +95,10 @@ const Select: React.FC<SelectProps> = (props: SelectProps) => {
     }
   }, [removeItem]);
 
+  useEffect(() => {
+    if (props.clearItems === true) setSelected([]);
+  }, [props.clearItems]);
+
   return (
     <div
       ref={selectRef}
@@ -118,7 +117,7 @@ const Select: React.FC<SelectProps> = (props: SelectProps) => {
                 className={`select__item ${isSelectedById(option.id) ? 'is-selected' : ''}`}
                 data-item={option.id}
                 key={index}
-                onClick={() => selectItem}
+                onClick={e => selectItem(e)}
               >
                 <span className="select__item__title">
                   {option.name}
@@ -130,7 +129,7 @@ const Select: React.FC<SelectProps> = (props: SelectProps) => {
         </ul>
       )}
     </div>
-  )
+  );
 }
 
 export default Select;

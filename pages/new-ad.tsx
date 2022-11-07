@@ -184,6 +184,35 @@ const NewAdPage: React.FC = () => {
               <div className="row page__row justify-content-center">
                 <div className="col-12 col-lg-8">
                   <ContentBlock
+                    content={(
+                      <div className="block block--image-upload">
+                        <div className="row">
+                          <div className="block__subtitle">Upload your images</div>
+                          <p className="block__lead">File supports: JPG, JPEG, PNG</p>
+                          <p className="block__lead">File size limit: 2MB / image</p>
+                        </div>
+                        <div className="row">
+                          <div className="col-6 col-md-4">
+                            <ImageFileSelect
+                              buttonContent={'Select an image'}
+                            />
+                          </div>
+                          <div className="col-6 col-md-4">
+                            <ImageFileSelect
+                              buttonContent={'Select an image'}
+                            />
+                          </div>
+                          <div className="col-6 col-md-4">
+                            <ImageFileSelect
+                              buttonContent={'Select an image'}
+                            />
+                          </div>
+                        </div>
+                      </div>
+                    )}
+                  />
+
+                  <ContentBlock
                     title={`${product.category?.name ? `Category: ${product.category.name}` : 'Choose category'}`}
                     content={config?.data?.categories?.length > 0 && (
                       <ul className="list list--select">

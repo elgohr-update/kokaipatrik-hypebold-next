@@ -9,6 +9,7 @@ import {
   Brands,
   TransformedBrands,
 } from '@/types/types';
+import { transformBrands, transformSizes, transformConditions } from '@/helpers/transforms';
 import Select from '@/components/blocks/Select';
 import CardProduct from '@/components/cards/CardProduct';
 
@@ -18,77 +19,31 @@ type CategoryProps = {
   data: Array<Brands | Sizes | Conditions>;
 }
 
+const emptySelectedItems = {
+  brand: [],
+  size: [],
+  condition: [],
+};
+
 const Category: React.FC<CategoryProps> = (props: CategoryProps) => {
   const config = useSelector(state => state.config);
 
-  const [brands, setBrands] = useState<Array<TransformedBrands>>([]);
-  const [sizes, setSizes] = useState<Array<TransformedSizes>>([]);
-  const [conditions, setConditions] = useState<Array<TransformedConditions>>([]);
-  const [categoryId, setCategoryId] = useState('');
-  const [selectedItems, setSelectedItems] = useState({
-    brand: [],
-    size: [],
-    condition: [],
-  });
+  const [brands, setBrands] = useState<Array<TransformedBrands>>(transformBrands(config?.data?.brands));
+  const [sizes, setSizes] = useState<Array<TransformedSizes>>(transformSizes(config?.data?.sizes, props.categoryId));
+  const [conditions, setConditions] = useState<Array<TransformedConditions>>(transformConditions(config?.data?.conditions));
+  const [selectedItems, setSelectedItems] = useState(emptySelectedItems);
   const [removeItemData, setRemoveItemData] = useState({
     group: '',
     id: '',
   });
-
-  const transformBrands = (brands: Array<Brands>): Array<TransformedBrands> => {
-    const transformedBrands = [];
-
-    for (let brand of brands) {
-      transformedBrands.push({
-        id: brand.url,
-        name: brand.name,
-      });
-    }
-
-    return transformedBrands;
-  }
-
-  const transformSizes = (sizes: Array<Sizes>): Array<TransformedSizes> => {
-    const filteredSizes = sizes.filter(size => size.categoryId === props.categoryId);
-    const transformedSizes = [];
-
-    for (let size of filteredSizes) {
-      if (typeof size.size == 'string') {
-        transformedSizes.push({
-          name: size.size,
-          id: size.size,
-        });
-      }
-      if (typeof size.size == 'object') {
-        transformedSizes.push({
-          name: `US ${size.size.us}`,
-          id: `us-${size.size.us}`,
-        });
-      }
-    }
-
-    return transformedSizes;
-  };
-
-  const transformConditions = (conditions: Array<Conditions>): Array<TransformedConditions> => {
-    const transformedConditions = [];
-
-    for (let condition of conditions) {
-      transformedConditions.push({
-        id: condition.url,
-        name: condition.name,
-      });
-    }
-
-    return transformedConditions;
-  }
+  const [clearSelectedItems, setClearSelectedItems] = useState<boolean>(false);
 
   const setValue = (cat: string, value: Array<any>): void => {
     setSelectedItems(prevState => ({
       ...prevState,
       [cat]: value,
     }));
-  }
+  };
 
   const removeItem = (itemGroup: string, id: string): void => {
     setRemoveItemData(
@@ -97,33 +52,22 @@ const Category: React.FC<CategoryProps> = (props: CategoryProps) => {
         id: id,
       }
     );
-  }
-
-  const fetchData = async (): Promise<void> => {
-    const brandsData = brands.length > 0 ? brands : config?.data?.brands;
-    const sizesData = sizes.length > 0 ? sizes : config?.data?.sizes;
-    const conditionsData = conditions.length > 0 ? conditions : config?.data?.conditions;
-
-    if (props.categoryId !== categoryId) {
-      setBrands([]);
-      setSizes([]);
-      setConditions([]);
-    }
-
-    if ((brandsData && !brands.length) &&
-      (sizesData && !sizes.length) &&
-      (conditionsData && !conditions.length)) {
-      setBrands(transformBrands(brandsData as unknown as Array<Brands>));
-      setSizes(transformSizes(sizesData as unknown as Array<Sizes>));
-      setConditions(transformConditions(conditionsData as unknown as Array<Conditions>));
-    }
-
-    if (props.categoryId !== categoryId) setCategoryId(props.categoryId);
-  }
+  };
 
   useEffect(() => {
-    fetchData();
+    if (clearSelectedItems === true) setClearSelectedItems(false);
   });
+
+  useEffect(() => {
+    if (config?.data?.brands) setBrands(transformBrands(config?.data?.brands));
+    if (config?.data?.sizes) setSizes(transformSizes(config?.data?.sizes, props.categoryId));
+    if (config?.data?.conditions) setConditions(transformConditions(config?.data?.conditions));
+  }, [config]);
+
+  useEffect(() => {
+    setSelectedItems(emptySelectedItems);
+    setClearSelectedItems(true);
+  }, [props.categoryId]);
 
   return (
     <main className="page page--category">
@@ -141,6 +85,7 @@ const Category: React.FC<CategoryProps> = (props: CategoryProps) => {
                   options={brands}
                   onChange={setValue.bind(this)}
                   removeItem={removeItemData}
+                  clearItems={clearSelectedItems}
                 />
               </div>
               <div className="block__item block__item--size">
@@ -150,6 +95,7 @@ const Category: React.FC<CategoryProps> = (props: CategoryProps) => {
                   options={sizes}
                   onChange={setValue.bind(this)}
                   removeItem={removeItemData}
+                  clearItems={clearSelectedItems}
                 />
               </div>
               <div className="block__item block__item--condition">
@@ -159,6 +105,7 @@ const Category: React.FC<CategoryProps> = (props: CategoryProps) => {
                   options={conditions}
                   onChange={setValue.bind(this)}
                   removeItem={removeItemData}
+                  clearItems={clearSelectedItems}
                 />
               </div>
             </div>

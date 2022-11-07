@@ -242,9 +242,7 @@ const Header: React.FC = () => {
           </div>
           <div className="header__logo col-4 col-lg-1">
             <Link href="/">
-              <a>
-                <Logo />
-              </a>
+              <Logo />
             </Link>
           </div>
 
@@ -275,10 +273,11 @@ const Header: React.FC = () => {
                                 className="nav__dropdown__item"
                                 key={index}
                               >
-                                <Link href={`/brand/${brand.url}`}>
-                                  <a className="nav__link nav__dropdown__link">
-                                    {brand.name}
-                                  </a>
+                                <Link
+                                  href={`/brand/${brand.url}`}
+                                  className="nav__link nav__dropdown__link"
+                                >
+                                  {brand.name}
                                 </Link>
                               </li>
                             );
@@ -301,10 +300,11 @@ const Header: React.FC = () => {
                                 className="nav__dropdown__item"
                                 key={index}
                               >
-                                <Link href={`/brand/${brand.url}`}>
-                                  <a className="nav__link nav__dropdown__link">
-                                    {brand.name}
-                                  </a>
+                                <Link
+                                  href={`/brand/${brand.url}`}
+                                  className="nav__link nav__dropdown__link"
+                                >
+                                  {brand.name}
                                 </Link>
                               </li>
                             );
@@ -317,10 +317,11 @@ const Header: React.FC = () => {
                   {categories.map((category, index) => {
                     return (
                       <li className="nav__item" key={index}>
-                        <Link href={`/category/${category.url}`}>
-                          <a className="nav__link">
-                            {category.name}
-                          </a>
+                        <Link
+                          href={`/category/${category.url}`}
+                          className="nav__link"
+                        >
+                          {category.name}
                         </Link>
                       </li>
                     )
@@ -416,10 +417,11 @@ const Header: React.FC = () => {
                                   className="block__dropdown-item"
                                   key={index}
                                 >
-                                  <Link href={item.url}>
-                                    <a className="block__dropdown-link">
-                                      {item.name}
-                                    </a>
+                                  <Link
+                                    href={item.url}
+                                    className="block__dropdown-link"
+                                  >
+                                    {item.name}
                                   </Link>
                                 </li>
                               )
@@ -465,10 +467,11 @@ const Header: React.FC = () => {
                 className="block__dropdown-item"
                 key={index}
               >
-                <Link href={item.url}>
-                  <a className="block__dropdown-link">
-                    {item.name}
-                  </a>
+                <Link
+                  href={item.url}
+                  className="block__dropdown-link"
+                >
+                  {item.name}
                 </Link>
               </li>
             )
